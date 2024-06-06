@@ -1,3 +1,6 @@
+#Default update
+curl --silent https://raw.githubusercontent.com/macygabr/ZprofileForMac/main/.zprofile > ~/.zprofile
+
 function push {
 #Default commit 'backup'
   cd $(pwd)
