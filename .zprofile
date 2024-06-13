@@ -273,9 +273,12 @@ curl "https://wttr.in/Novosibirsk?lang=ru"
 }
 
 function newsql() {
-  green=$'[0;32m'
-  red=$'[0;31m'
-  cyan=$'[1;96m'
+# Colors
+blue=$'[0;34m'
+cyan=$'[1;96m'
+reset=$'[0;39m'
+green=$'[0;32m'
+red=$'[0;31m'
   # Проверяем, что первый аргумент является числом и больше нуля
   # if [[ "$1" =~ ^[0-9]+$ ]] || [ "$1" -le 0 ]; then
   #   echo "The entered data is incorrect."
@@ -286,6 +289,8 @@ function newsql() {
   local base_folder="ex"
   local confirmation
   local day_num
+
+  echo "$cyan"'Which is the day of SQL do you do?'
 
   read day_num
   # Запрашиваем подтверждение от пользователя
@@ -340,9 +345,10 @@ function newsql() {
 }
 
 function deletesql() {
-  green=$'[0;32m'
-  red=$'[0;31m'
-  cyan=$'[1;96m'
+# Colors
+cyan=$'[1;96m'
+green=$'[0;32m'
+red=$'[0;31m'
   # Подсчет количества папок, соответствующих шаблону
   count=$(ls | grep '^ex*' | wc -l)
   
@@ -354,8 +360,11 @@ function deletesql() {
     if [[ $answer == y ]]; then
       rm -rf ex*
       echo "$green""$count" 'folders deleted successfully.'
-    else
+    fi
+    if [[ $answer == n ]]; then
       echo "$cyan"'Operation cancelled.'
+    else
+      echo "$red"'Invalid input. Operation is cancelled.'
     fi
   else
     echo "$red"'No any folders to delete.'
