@@ -291,7 +291,6 @@ red=$'[0;31m'
   local day_num
 
   echo "$cyan"'Which is the day of SQL do you do?'
-
   read day_num
   # Запрашиваем подтверждение от пользователя
   echo "$cyan"'Are you sure you want to create' "$num_folders" 'new sql-folders for the day:' "$day_num"'? Y/n'
