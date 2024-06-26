@@ -272,102 +272,100 @@ function wttr {
 curl "https://wttr.in/Novosibirsk?lang=ru"
 }
 
-function newsql() {
-# Colors
-blue=$'[0;34m'
-cyan=$'[1;96m'
-reset=$'[0;39m'
-green=$'[0;32m'
-red=$'[0;31m'
-  # Проверяем, что первый аргумент является числом и больше нуля
-  # if [[ "$1" =~ ^[0-9]+$ ]] || [ "$1" -le 0 ]; then
-  #   echo "The entered data is incorrect."
-  #   return 1
-  # fi
 
-  local num_folders=$1
-  local base_folder="ex"
-  local confirmation
-  local day_num
-
-  echo "$cyan"'Which is the day of SQL do you do?'
-  read day_num
-  # Запрашиваем подтверждение от пользователя
-  echo "$cyan"'Are you sure you want to create' "$num_folders" 'new sql-folders for the day:' "$day_num"'? Y/n'
-  read confirmation
-
-  # Проверяем ввод пользователя
-  case $confirmation in
-    [Yy]* )
-      # Продолжаем выполнение, так как пользователь ввел "y"
-      ;;
-    [Nn]* )
-      echo "$cyan"'Command cancelled.'
-      return 0
-      ;;
-    * )
-      echo "$red"'Invalid input.'
-      return 1
-      ;;
-  esac
-
-  # Создаем нужное количество папок
-  for (( j = 0; j < num_folders; j++ )); do
-    if [ $j -le 9 ]; then
-      mkdir "${base_folder}0$j"
-    else
-      mkdir "${base_folder}$j"
-    fi
-  done
-
-  # Переходим в каждую папку и создаем файлы
-  for (( i = 0; i < num_folders; i++ )); do
-    if [ $i -le 9 ]; then
-      cd "${base_folder}0$i"
-      if [ $day_num -le 9 ]; then
-           touch "day0${day_num}_${base_folder}0$i.sql"
-      else
-           touch "day${day_num}_${base_folder}0$i.sql"
-      fi
-      cd ../
-    else
-      cd "${base_folder}$i"
-      if [ $day_num -le 9 ]; then
-           touch "day0${day_num}_${base_folder}$i.sql"
-      else
-           touch "day${day_num}_${base_folder}$i.sql"
-      fi
-      cd ../
-    fi
-  done
-  echo "$green""$num_folders" 'sql-folders for the day:' "$day_num" '- created successfully'
-}
-
-function deletesql() {
+function sql {
 # Colors
 cyan=$'[1;96m'
 green=$'[0;32m'
 red=$'[0;31m'
-  # Подсчет количества папок, соответствующих шаблону
-  count=$(ls | grep '^ex*' | wc -l)
-  
-  # Проверка наличия папок
-  if ((count > 0)); then
-    echo "$cyan"'Are you sure you want to delete these folders in count about:' "$count"'? (y/n)'
-    read answer
+
+for arg in "$@"; do
+  if [ "$arg" = "-c" ]; then
+    local num_folders=$1
+    local base_folder="ex"
+    local confirmation
+    local day_num
+
+    echo "$cyan"'How many folders do you need?'
+    read num_folders
+
+    echo "$cyan"'Which is the day of SQL do you do?'
+    read day_num
+    # Запрашиваем подтверждение от пользователя
+    echo "$cyan"'Are you sure you want to create' "$num_folders" 'new sql-folders for the day:' "$day_num"'? Y/n'
+    read confirmation
+
+    # Проверяем ввод пользователя
+    case $confirmation in
+      [Yy]* )
+        # Продолжаем выполнение, так как пользователь ввел "y"
+        ;;
+      [Nn]* )
+        echo "$cyan"'Command cancelled.'
+        return 0
+        ;;
+      * )
+        echo "$red"'Invalid input.'
+        return 1
+        ;;
+    esac
     
-    if [[ $answer == y ]]; then
-      rm -rf ex*
-      echo "$green""$count" 'folders deleted successfully.'
+    # Создаем нужное количество папок
+    for (( j = 0; j < num_folders; j++ )); do
+      if [ $j -le 9 ]; then
+        mkdir "${base_folder}0$j"
+      else
+        mkdir "${base_folder}$j"
+      fi
+    done
+
+    # Переходим в каждую папку и создаем файлы
+    for (( i = 0; i < num_folders; i++ )); do
+      if [ $i -le 9 ]; then
+        cd "${base_folder}0$i"
+        if [ $day_num -le 9 ]; then
+             touch "day0${day_num}_${base_folder}0$i.sql"
+        else
+             touch "day${day_num}_${base_folder}0$i.sql"
+        fi
+        cd ../
+      else
+        cd "${base_folder}$i"
+        if [ $day_num -le 9 ]; then
+             touch "day0${day_num}_${base_folder}$i.sql"
+        else
+             touch "day${day_num}_${base_folder}$i.sql"
+        fi
+        cd ../
+      fi
+    done
+    echo "$green""$num_folders" 'sql-folders for the day:' "$day_num" '- created successfully'
     fi
-    if [[ $answer == n ]]; then
-      echo "$cyan"'Operation cancelled.'
-    else
-      echo "$red"'Invalid input. Operation is cancelled.'
+    done
+
+    if [ "$arg" = "-d" ]; then
+        # Подсчет количества папок, соответствующих шаблону
+      # count=$(ls | grep '^ex*' | wc -l)
+      # count=$(ls | grep '^ex[[:alnum:]_]\{2\}[0-9]\{2\}$' | wc -l)
+      count=$(ls | grep '^ex[0-9]\{2\}$' | wc -l)
+  
+      # Проверка наличия папок
+      if [[ count -gt 0 ]]; then
+        echo "$cyan"'Are you sure you want to delete these folders in count about:' "$count"'? (y/n)'
+        read answer
+
+        if [[ $answer == y ]]; then
+          rm -rf ex[0-9][0-9]
+          echo "$green""$count" 'folders deleted successfully.'
+        elif [[ $answer == n ]]; then
+          echo "$cyan"'Operation cancelled.'
+        else
+          echo "$red"'Invalid input. Operation is cancelled.'
+        fi
+      else
+        echo "$red"'No any folders to delete.'
+      fi
     fi
-  else
-    echo "$red"'No any folders to delete.'
-  fi
 }
 
 #Default update
