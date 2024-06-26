@@ -195,7 +195,7 @@ rm -rf ~/Library/Application\ Support/jazz/WebrtcVideoStats 2>/dev/zero
 rm -rf ~/Library/Application\ Support/Postman/Cache 2>/dev/zero
 rm -rf ~/Library/Application\ Support/Postman/Partitions 2>/dev/zero
 rm -rf ~/Library/Application\ Support/Rocket.Chat/Cache 2>/dev/zero
-rm -rf '~/Library/Application Support/Rocket.Chat/Partitions/https%3A/rocketchat-student.21-school.ru/Cache' 2>/dev/zero
+rm -rf ~/Library/Application\ Support/Rocket.Chat/Partitions/https%3A/rocketchat-student.21-school.ru/Cache/Cache_Data 2>/dev/zero
 rm -rf ~/Library/Application\ Support/Yandex/YandexBrowser/Cache 2>/dev/zero
 rm -rf ~/Library/Application\ Support/Yandex/YandexBrowser/Default/Service\ Worker/CacheStorage 2>/dev/zero
 rm -rf ~/Library/Application\ Support/Yandex/YandexBrowser/Snapshots 2>/dev/zero
