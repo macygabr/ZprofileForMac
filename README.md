@@ -4,7 +4,7 @@
 
 Воспользуйтесь следующей командой:
 ```bash
-cp ~/.zprofile ~/.zprofile.backup && curl https://raw.githubusercontent.com/macygabr/ZprofileForMac/main/.zprofile > ~/.zprofile && source ~/.zprofile
+cp ~/.zprofile ~/.zprofile.backup; curl https://raw.githubusercontent.com/macygabr/ZprofileForMac/main/.zprofile > ~/.zprofile && source ~/.zprofile
 ```
 Эта команда создаст резервную копию текущего файла .zprofile под именем .zprofile.backup, после чего обновит оригинальный файл.
 
