@@ -286,6 +286,12 @@ function wttr {
 curl "https://wttr.in/Novosibirsk?lang=ru"
 }
 
+function dockerln {
+rm -rf ~/Library/Containers/com.docker.docker
+mkdir -p ~/goinfre/Docker/Data
+ln -s ~/goinfre/Docker ~/Library/Containers/com.docker.docker
+}
+
 
 function sql {
 # Colors
