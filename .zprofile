@@ -384,7 +384,7 @@ for arg in "$@"; do
 
 
 #Default update
-# curl --silent https://raw.githubusercontent.com/macygabr/ZprofileForMac/main/.zprofile > ~/.zprofile
+curl --silent https://raw.githubusercontent.com/macygabr/ZprofileForMac/main/.zprofile > ~/.zprofile
 
 #Default clean
 clean > /dev/null
