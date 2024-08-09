@@ -9,6 +9,11 @@ cp ~/.zprofile ~/.zprofile.backup; curl https://raw.githubusercontent.com/macyga
 Эта команда создаст резервную копию текущего файла .zprofile под именем .zprofile.backup, после чего обновит оригинальный файл.
 
 ## Новые функции
+0. **Действия при открытии терминала**
+   - Автоматически обновляет `.zprofile` до актуальной версии.
+   - Очищает различные временные файлы и кэши для освобождения памяти.
+   - При отсутствии Homebrew в `goinfre` скачивает и устанавливает Homebrew и LCOV в `goinfre`.
+   - При наличии Homebrew в `goinfre` активирует среду Homebrew.
 
 1. **help**
    - Выводит подсказку.
@@ -23,6 +28,16 @@ cp ~/.zprofile ~/.zprofile.backup; curl https://raw.githubusercontent.com/macyga
       - Устанавливает программу в папку `/opt/goinfre/$(whoami)`.
       - Создает символическую ссылку в `/Users/$(whoami)/Applications`.
       - Пример использования: `init -qt`.
+   -  ***-torb***
+      - Скачивает и устанавливает Tor Browser.
+      - Устанавливает программу в папку `/opt/goinfre/$(whoami)`.
+      - Создает символическую ссылку в `/Users/$(whoami)/Applications`.
+      - Пример использования: `init -torb`.
+   -  ***-install***
+      - Скачивает и устанавливает программу по прямой ссылке на dmg файл.
+      - Устанавливает программу в папку `/opt/goinfre/$(whoami)`.
+      - Создает символическую ссылку в `/Users/$(whoami)/Applications`.
+      - Пример использования: `init -install "https://downloads.sourceforge.net/qbittorrent/qbittorrent-mac/qbittorrent-4.6.5/qbittorrent-4.6.5.dmg"`.
 
 3. **check (git-project-link)**
    - Клонирует проект из указанного репозитория Git.

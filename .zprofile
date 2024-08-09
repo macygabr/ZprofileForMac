@@ -1,48 +1,55 @@
 
 function init {
-    function qtinstall {
-        # Путь к .dmg файлу
-        DMG_URL="https://qt-mirror.dannhauer.de/archive/qtcreator/7.0/7.0.0/qt-creator-opensource-mac-x86_64-7.0.0.dmg"
-        # Имя .dmg файла
-        DMG_FILE="qt-creator-opensource-mac-x86_64-7.0.0.dmg"
-        # Папка для установки
+    function installdmg {
+        DMG_URL="$1"
+        DMG_FILE="$(basename "$DMG_URL")"
         INSTALL_DIR="/opt/goinfre/$(whoami)"
-        # Путь для символической ссылки в /Applications
         LINK_PATH="/Users/$(whoami)/Applications"
 
         # Скачиваем .dmg файл
         curl "$DMG_URL" -L -o "$DMG_FILE"
-        # Проверка успешности загрузки
         if [ $? -ne 0 ]; then
             echo "Ошибка при скачивании файла."
-            return 1
+            return 1;
         fi
 
         # Создаем папку для установки, если её нет
         mkdir -p "$INSTALL_DIR"
+
         # Монтируем .dmg файл
-        hdiutil attach "$DMG_FILE" -nobrowse -mountpoint /Volumes/qt-creator
-        # Проверка успешности монтирования
+        MOUNT_POINT="/Volumes/temp-mount"
+        hdiutil attach "$DMG_FILE" -nobrowse -mountpoint "$MOUNT_POINT"
         if [ $? -ne 0 ]; then
             echo "Ошибка при монтировании .dmg файла."
-            return 1
+            return 1;
         fi
 
-        cp -R /Volumes/qt-creator/Qt\ Creator.app "$INSTALL_DIR"
-        hdiutil detach /Volumes/qt-creator
+        # Определяем имя приложения
+        APP_NAME=$(ls "$MOUNT_POINT" | grep ".app$")
+        if [ -z "$APP_NAME" ]; then
+            echo "Приложение не найдено внутри .dmg файла."
+            hdiutil detach "$MOUNT_POINT"
+            return 1;
+        fi
+
+        # Копируем приложение в INSTALL_DIR
+        cp -R "$MOUNT_POINT/$APP_NAME" "$INSTALL_DIR"
+        hdiutil detach "$MOUNT_POINT"
         if [ $? -ne 0 ]; then
             echo "Ошибка при демонтаже .dmg файла."
-            return 1
+            return 1;
         fi
 
+        # Удаляем .dmg файл
         rm "$DMG_FILE"
-        ln -s "$INSTALL_DIR/Qt Creator.app" "$LINK_PATH/Qt Creator.app"
+
+        # Создаем символическую ссылку
+        ln -s "$INSTALL_DIR/$APP_NAME" "$LINK_PATH/$APP_NAME"
         if [ $? -ne 0 ]; then
             echo "Ошибка при создании символической ссылки."
-            return 1
         fi
 
-        echo "Установка завершена. Qt Creator установлен в $INSTALL_DIR.\nВ настройках укажите путь до /usr/local/Qt-6.6.2/bin/qmake6"
+        echo "Установка завершена. $APP_NAME установлен в $INSTALL_DIR."
     }
 
     if [ "$1" = "-java" ]; then
@@ -51,7 +58,15 @@ function init {
     fi
     
     if [ "$1" = "-qt" ]; then
-      qtinstall
+      installdmg "https://qt-mirror.dannhauer.de/archive/qtcreator/7.0/7.0.0/qt-creator-opensource-mac-x86_64-7.0.0.dmg"
+    fi
+
+    if [ "$1" = "-torb" ]; then
+      installdmg "https://tor.eprci.net/dist/torbrowser/13.5.2/tor-browser-macos-13.5.2.dmg"
+    fi
+
+    if [ "$1" = "-install" ]; then
+      installdmg "$2"
     fi
 
 }
