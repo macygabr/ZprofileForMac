@@ -1,20 +1,5 @@
 
 function init {
-    function homebrew {
-     if [ -d /opt/goinfre/$(whoami)/homebrew ];
-     then
-      eval "$(/opt/goinfre/$(whoami)/homebrew/bin/brew shellenv)"
-      chmod -R go-w "$(brew --prefix)/share/zsh"
-     else
-      cd /opt/goinfre/$(whoami)
-      git clone https://github.com/Homebrew/brew homebrew
-      eval "$(/opt/goinfre/$(whoami)/homebrew/bin/brew shellenv)"
-      brew update --force --quiet
-      chmod -R go-w "$(brew --prefix)/share/zsh"
-      brew install lcov
-     fi
-    }
-
     function qtinstall {
         # Путь к .dmg файлу
         DMG_URL="https://qt-mirror.dannhauer.de/archive/qtcreator/7.0/7.0.0/qt-creator-opensource-mac-x86_64-7.0.0.dmg"
@@ -61,15 +46,10 @@ function init {
     }
 
     if [ "$1" = "-java" ]; then
-      homebrew
       brew install maven
       brew install openjdk
     fi
     
-    if [ "$1" = "-brew" ]; then
-      homebrew
-    fi
-
     if [ "$1" = "-qt" ]; then
       qtinstall
     fi
@@ -112,7 +92,6 @@ function help {
   printf "\tNow you can use the following functions:\n"
 
   printf "\n${BLUE}init (-flag)${DARKYELLOW}\t\t\t Initializes environment based on the specified flag:${END}\n"
-  printf "\t\t${BLUE}-brew${DARKYELLOW}\t\t Installs Homebrew in goinfre and lcov. Loads Homebrew environment variables if already installed.\n\t\t\t\t Example: init -brew${END}\n"
   printf "\t\t${BLUE}-java${DARKYELLOW}\t\t Installs Openjdk@22 and Maven.\n\t\t\t\t Example: init -java${END}\n"
   printf "\t\t${BLUE}-qt${DARKYELLOW}\t\t Downloads and installs Qt Creator to /opt/goinfre/\$(whoami) and creates a symbolic link in /Users/\$(whoami)/Applications.\n\t\t\t\t Example: init -qt${END}\n"
 
@@ -132,7 +111,6 @@ function help {
 
   printf "\n${BLUE}wttr${DARKYELLOW}\t\t\t\t\t Displays the weather in Novosibirsk using the wttr.in service.\n\t\t\t\t\t Example: wttr${END}\n"
   
-  printf "\n Please, restart your terminal.\n"
 }
 
 function check {
@@ -388,14 +366,23 @@ for arg in "$@"; do
     fi
 }
 
+
 #Default update
 curl --silent https://raw.githubusercontent.com/macygabr/ZprofileForMac/main/.zprofile > ~/.zprofile
 
+#Default clean
+clean > /dev/null
 
+#Default install homebrew
 if [ -d /opt/goinfre/$(whoami)/homebrew ];
 then
  eval "$(/opt/goinfre/$(whoami)/homebrew/bin/brew shellenv)"
  chmod -R go-w "$(brew --prefix)/share/zsh"
+else
+ cd /opt/goinfre/$(whoami)
+ git clone https://github.com/Homebrew/brew homebrew
+ eval "$(/opt/goinfre/$(whoami)/homebrew/bin/brew shellenv)"
+ brew update --force --quiet
+ chmod -R go-w "$(brew --prefix)/share/zsh"
+ brew install lcov
 fi
-
-rm -rf ~/Desktop/hello;
