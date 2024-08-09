@@ -47,7 +47,6 @@ function init {
         ln -s "$INSTALL_DIR/$APP_NAME" "$LINK_PATH/$APP_NAME"
         if [ $? -ne 0 ]; then
             echo "Ошибка при создании символической ссылки."
-            return 1;
         fi
 
         echo "Установка завершена. $APP_NAME установлен в $INSTALL_DIR."
