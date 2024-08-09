@@ -23,6 +23,16 @@ cp ~/.zprofile ~/.zprofile.backup; curl https://raw.githubusercontent.com/macyga
       - Устанавливает программу в папку `/opt/goinfre/$(whoami)`.
       - Создает символическую ссылку в `/Users/$(whoami)/Applications`.
       - Пример использования: `init -qt`.
+   -  ***-torb***
+      - Скачивает и устанавливает Tor Browser.
+      - Устанавливает программу в папку `/opt/goinfre/$(whoami)`.
+      - Создает символическую ссылку в `/Users/$(whoami)/Applications`.
+      - Пример использования: `init -torb`.
+   -  ***-install***
+      - Скачивает и устанавливает программу по прямой ссылке на dmg файл.
+      - Устанавливает программу в папку `/opt/goinfre/$(whoami)`.
+      - Создает символическую ссылку в `/Users/$(whoami)/Applications`.
+      - Пример использования: `init -install "https://downloads.sourceforge.net/qbittorrent/qbittorrent-mac/qbittorrent-4.6.5/qbittorrent-4.6.5.dmg"`.
 
 3. **check (git-project-link)**
    - Клонирует проект из указанного репозитория Git.
