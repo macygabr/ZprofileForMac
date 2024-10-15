@@ -59,6 +59,7 @@ function init {
     
     if [ "$1" = "-qt" ]; then
       installdmg "https://qt-mirror.dannhauer.de/archive/qtcreator/7.0/7.0.0/qt-creator-opensource-mac-x86_64-7.0.0.dmg"
+      echo "Установка завершена. Qt Creator установлен в $INSTALL_DIR.\nВ настройках укажите путь до /usr/local/Qt-6.6.2/bin/qmake6"
     fi
 
     if [ "$1" = "-torb" ]; then
@@ -98,34 +99,7 @@ function code {
 }
 
 function help {
-  DARKYELLOW="\033[33m"
-  BLUE=$'\033[0;34m'
-  GREEN=$'\033[0;32m'
-  END="\033[0m"
-
-  printf "\n\t\t${GREEN}Welcome!${END}\n"
-  printf "\tNow you can use the following functions:\n"
-
-  printf "\n${BLUE}init (-flag)${DARKYELLOW}\t\t\t Initializes environment based on the specified flag:${END}\n"
-  printf "\t\t${BLUE}-java${DARKYELLOW}\t\t Installs Openjdk@22 and Maven.\n\t\t\t\t Example: init -java${END}\n"
-  printf "\t\t${BLUE}-qt${DARKYELLOW}\t\t Downloads and installs Qt Creator to /opt/goinfre/\$(whoami) and creates a symbolic link in /Users/\$(whoami)/Applications.\n\t\t\t\t Example: init -qt${END}\n"
-
-  printf "\n${BLUE}check (git-project-link)${DARKYELLOW}\t\t Clones a project from the specified Git repository,\n\t\t\t\t\t switches to the 'develop' branch, checks formatting using clang-format and cppcheck,\n\t\t\t\t\t and opens the project in Visual Studio Code.\n\t\t\t\t\t Example: check https://github.com/username/project.git${END}\n"
-
-  printf "\n${BLUE}push [commit]${DARKYELLOW}\t\t\t\t Checks formatting using clang-format in *.c, *.cc, *.h, *.cpp files,\n\t\t\t\t\t commits changes with the specified message (or default 'backup'),\n\t\t\t\t\t and pushes to the 'develop' branch or current branch if -d flag is used.\n\t\t\t\t\t Example: push 'Commit message', push, push -d 'Commit message', push -d${END}\n"
-
-  printf "\n${BLUE}code [path]${DARKYELLOW}\t\t\t\t Opens a file or directory in Visual Studio Code.\n\t\t\t\t\t Example: code ., code path/to/file${END}\n"
-
-  printf "\n${BLUE}clean${DARKYELLOW}\t\t\t\t\t Cleans various temporary files and caches to free up memory.\n\t\t\t\t\t Example: clean${END}\n"
-
-  printf "\n${BLUE}sql (-flag)${DARKYELLOW}\t\t\t\t Manages SQL assignment folders:${END}\n"
-  printf "\t\t${BLUE}-c${DARKYELLOW}\t\t Creates a specified number of folders with SQL assignments and a day-specified SQL file.\n\t\t\t\t Example: sql -c, 10, 5, y${END}\n"
-  printf "\t\t${BLUE}-d${DARKYELLOW}\t\t Deletes all SQL assignment folders matching the pattern [ex**] in the current directory.\n\t\t\t\t Example: sql -d, y${END}\n"
-
-  printf "\n${BLUE}roll${DARKYELLOW}\t\t\t\t\t Simulates a dice roll and displays the result.\n\t\t\t\t\t Example: roll${END}\n"
-
-  printf "\n${BLUE}wttr${DARKYELLOW}\t\t\t\t\t Displays the weather in Novosibirsk using the wttr.in service.\n\t\t\t\t\t Example: wttr${END}\n"
-  
+  open -a Safari https://github.com/macygabr/ZprofileForMac
 }
 
 function check {
@@ -322,7 +296,7 @@ for arg in "$@"; do
         return 1
         ;;
     esac
-    
+
     # Создаем нужное количество папок
     for (( j = 0; j < num_folders; j++ )); do
       if [ $j -le 9 ]; then
@@ -361,7 +335,7 @@ for arg in "$@"; do
       # count=$(ls | grep '^ex*' | wc -l)
       # count=$(ls | grep '^ex[[:alnum:]_]\{2\}[0-9]\{2\}$' | wc -l)
       count=$(ls | grep '^ex[0-9]\{2\}$' | wc -l)
-  
+
       # Проверка наличия папок
       if [[ count -gt 0 ]]; then
         echo "$cyan"'Are you sure you want to delete these folders in count about:' "$count"'? (y/n)'
