@@ -28,11 +28,6 @@ cp ~/.zprofile ~/.zprofile.backup; curl https://raw.githubusercontent.com/macyga
       - Устанавливает программу в папку `/opt/goinfre/$(whoami)`.
       - Создает символическую ссылку в `/Users/$(whoami)/Applications`.
       - Пример использования: `init -qt`.
-   -  ***-torb***
-      - Скачивает и устанавливает Tor Browser.
-      - Устанавливает программу в папку `/opt/goinfre/$(whoami)`.
-      - Создает символическую ссылку в `/Users/$(whoami)/Applications`.
-      - Пример использования: `init -torb`.
    -  ***-install***
       - Скачивает и устанавливает программу по прямой ссылке на dmg файл.
       - Устанавливает программу в папку `/opt/goinfre/$(whoami)`.
@@ -83,11 +78,13 @@ cp ~/.zprofile ~/.zprofile.backup; curl https://raw.githubusercontent.com/macyga
    - Удаляет папку с контейнерами докера в домашней директории и линканет ее в goinfre.
    - Пример использования: `dockerln`.
 
-9. **roll**
-   - Игральная кость.
-   - Пример использования: `roll`.
+9. **freln (source_path) [goinfre_subfolder]**
+   - Перемещает папку в `goinfre` и линкует ее в исходной директории.
+   - Если `goinfre_subfolder` не указан, то по умолчанию используется папка `links`.
+   - Пример использования: 
+     - `freln /path/to/source` — переместит папку в `~/goinfre/links/source` и создаст символическую ссылку.
+     - `freln /path/to/source custom_folder` — переместит папку в `~/goinfre/custom_folder/source` и создаст символическую ссылку.
 
 10. **wttr**
    - Отображает погоду в Новосибирске через сервис wttr.in.
    - Пример использования: `wttr`.
-

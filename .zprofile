@@ -62,10 +62,6 @@ function init {
       echo "Установка завершена. Qt Creator установлен в $INSTALL_DIR.\nВ настройках укажите путь до /usr/local/Qt-6.6.2/bin/qmake6"
     fi
 
-    if [ "$1" = "-torb" ]; then
-      installdmg "https://tor.eprci.net/dist/torbrowser/13.5.2/tor-browser-macos-13.5.2.dmg"
-    fi
-
     if [ "$1" = "-install" ]; then
       installdmg "$2"
     fi
@@ -190,73 +186,39 @@ echo -n "$reset"
 echo "$cyan"'----|Cleanup  ended|----|'
 }
 
-
-function roll {
-roll=$((RANDOM % 6 + 1))
-
-print_dice() {
-    case $1 in
-        1)
-            echo "┌─────┐
-│     │
-│  *  │
-│     │
-└─────┘
-"
-            ;;
-        2)
-            echo "┌─────┐
-│ *   │
-│     │
-│   * │
-└─────┘
-"
-            ;;
-        3)
-            echo "┌─────┐
-│ *   │
-│  *  │
-│   * │
-└─────┘
-"
-            ;;
-        4)
-            echo "┌─────┐
-│ * * │
-│     │
-│ * * │
-└─────┘
-"
-            ;;
-        5)
-            echo "┌─────┐
-│ * * │
-│  *  │
-│ * * │
-└─────┘
-"
-            ;;
-        6)
-            echo "┌─────┐
-│ * * │
-│ * * │
-│ * * │
-└─────┘
-"
-            ;;
-    esac
-}
-print_dice $roll
-}
-
 function wttr {
 curl "https://wttr.in/Novosibirsk?lang=ru"
 }
 
+function freln {
+  local src_path=$1
+  local goinfre_folder=${2:-"links"}  # Если второй аргумент не указан, присваиваем "links"
+  local goinfre_path=~/goinfre/$goinfre_folder/$(basename "$src_path")  # Перемещаем саму папку
+
+  # Проверяем, что первый аргумент (путь до папки) передан
+  if [ -z "$src_path" ]; then
+    echo "Usage: freln <source_path> [goinfre_subfolder]"
+    return 1
+  fi
+
+  # Создаем целевую папку в goinfre, если она ещё не существует
+  mkdir -p "$(dirname "$goinfre_path")"
+
+  # Если исходная папка существует, перемещаем её в goinfre
+  if [ -d "$src_path" ]; then
+    mv "$src_path" "$goinfre_path"
+  fi
+
+  # Создаем символическую ссылку на новое местоположение
+  ln -s "$goinfre_path" "$src_path"
+
+  echo "Moved $src_path to $goinfre_path and created a symlink"
+}
+
 function dockerln {
-rm -rf ~/Library/Containers/com.docker.docker
-mkdir -p ~/goinfre/Docker/Data
-ln -s ~/goinfre/Docker ~/Library/Containers/com.docker.docker
+  rm -rf ~/Library/Containers/com.docker.docker
+  mkdir -p ~/goinfre/Docker/Data
+  ln -s ~/goinfre/Docker ~/Library/Containers/com.docker.docker
 }
 
 
