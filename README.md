@@ -28,6 +28,12 @@ cp ~/.zprofile ~/.zprofile.backup; curl https://raw.githubusercontent.com/macyga
       - Устанавливает программу в папку `/opt/goinfre/$(whoami)`.
       - Создает символическую ссылку в `/Users/$(whoami)/Applications`.
       - Пример использования: `init -qt`.
+   -  ***-tor***
+      - Автоматически находит последнюю стабильную версию Tor Browser на зеркале `tor.zilog.es`.
+      - Формирует правильную ссылку для скачивания `.dmg` файла.
+      - Устанавливает программу в папку `/opt/goinfre/$(whoami)`.
+      - Создает символическую ссылку в `/Users/$(whoami)/Applications`.
+      - Пример использования: `init -tor`.
    -  ***-install***
       - Скачивает и устанавливает программу по прямой ссылке на dmg файл.
       - Устанавливает программу в папку `/opt/goinfre/$(whoami)`.
