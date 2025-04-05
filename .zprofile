@@ -62,10 +62,26 @@ function init {
       echo "Установка завершена. Qt Creator установлен в $INSTALL_DIR.\nВ настройках укажите путь до /usr/local/Qt-6.6.2/bin/qmake6"
     fi
 
-    if [ "$1" = "-install" ]; then
-      installdmg "$2"
+    if [ "$1" = "-tor" ]; then
+        echo "Поиск последней стабильной версии Tor Browser..."
+        TOR_MIRROR="https://tor.zilog.es/dist/torbrowser/"
+        LATEST_VERSION=$(curl -s "$TOR_MIRROR" | grep -o 'href="[0-9]\+\.[0-9]\+\.[0-9]\+/\?"' | sort -V | tail -1 | sed 's/href="//;s/\/"//')
+        
+        if [ -z "$LATEST_VERSION" ]; then
+            echo "Не удалось определить последнюю версию Tor Browser."
+            return 1
+        fi
+
+        TOR_URL="${TOR_MIRROR}${LATEST_VERSION}/tor-browser-macos-${LATEST_VERSION}.dmg"
+        echo "Найдена последняя версия: $LATEST_VERSION"
+        echo "Ссылка для скачивания: $TOR_URL"
+        
+        installdmg "$TOR_URL"
     fi
 
+    if [ "$1" = "-install" ]; then
+        installdmg "$2"
+    fi
 }
 
 function push {
